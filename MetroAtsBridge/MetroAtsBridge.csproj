@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MetroAts">
-      <HintPath>..\..\MetroAts\MetroAts\bin\Debug\MetroAts.dll</HintPath>
+    <Reference Include="MetroAts, Version=1.2.9479.26255, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MetroAts\plugins\MetroAts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

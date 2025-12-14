@@ -1,4 +1,4 @@
-LIBRARY bve-autopilot
+LIBRARY bve-autopilot-lib
 
 EXPORTS
 	GetPluginVersion
@@ -17,3 +17,4 @@ EXPORTS
 	DoorClose
 	SetSignal
 	SetBeaconData
+	setATOTASCStatus

@@ -94,6 +94,7 @@ namespace autopilot
         ATS_HANDLES 経過(
             const ATS_VEHICLESTATE &状態, int *出力値, int *音声状態);
 
+        void SetATOTASCStatus(int mode);
 
     private:
         enum class インチング状態
@@ -107,6 +108,7 @@ namespace autopilot
         tasc _tasc;
         ato _ato;
         bool _tasc有効, _ato有効;
+        int _tascato_mode = 0;
         std::vector<稼働状態>::const_iterator _稼働状態;
         インチング状態 _インチング状態;
         std::vector<ATS_BEACONDATA> _通過済地上子;

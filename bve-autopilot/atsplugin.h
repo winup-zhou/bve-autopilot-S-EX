@@ -141,3 +141,6 @@ ATS_API void WINAPI SetSignal(int);
 
 // Called when the beacon data is received
 ATS_API void WINAPI SetBeaconData(ATS_BEACONDATA);
+
+// Called from MetroAtsBridge when ATO/TASC should enable
+ATS_API void WINAPI setATOTASCStatus(int mode);

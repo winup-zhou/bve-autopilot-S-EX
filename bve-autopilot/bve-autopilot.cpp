@@ -176,3 +176,9 @@ ATS_API void WINAPI SetBeaconData(ATS_BEACONDATA data) {
         main->地上子通過(data);
     }
 }
+
+ATS_API void WINAPI setATOTASCStatus(int mode) {
+	if (main != nullptr) {
+		main->SetATOTASCStatus(mode);
+	}
+}

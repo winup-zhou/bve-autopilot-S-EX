@@ -220,6 +220,10 @@ namespace autopilot
         _通過済地上子.push_back(地上子);
     }
 
+    void Main::SetATOTASCStatus(int mode) {
+        _tascato_mode = mode;
+    }
+
     ATS_HANDLES Main::経過(
         const ATS_VEHICLESTATE &状態, int *出力値, int *音声状態)
     {
@@ -252,30 +256,33 @@ namespace autopilot
         // TASC と ATO の出力ノッチをまとめる
         自動制御指令 自動ノッチ = _状態.最大力行ノッチ();
         //if (tasc有効()) {
-        if (出力値[73] == 1 && ((出力値[72] != 1 && 出力値[19] == true) || 出力値[20] == true || 出力値[21] == true || 出力値[41] == true || 出力値[35] == true)) {//TASCCgS有効、ATO/TASC切換NFBオン、キーは小田急でない
-            自動ノッチ = std::min(自動ノッチ, _tasc.出力ノッチ());
-            _ato有効 = false;
-            _tasc有効 = true;
-            //tasc状態2 = 1;
-            //tasc有効();
-            //!ato有効();
-        }
-        //if (ato有効()) {
-        if (出力値[73] == 1 && 出力値[92] != 7 && 出力値[72] == 1 && 出力値[19] == true) {//TASCCgS有効、ATO/TASC切換NFBオフ、キーは小田急でない
-            自動ノッチ = std::min(自動ノッチ, _tasc.出力ノッチ());
-            自動ノッチ = std::min(自動ノッチ, _ato.出力ノッチ());
-            //_稼働状態 = tasc()._tasc();
-            //tasc有効();
-            _ato有効 = true;
-            _tasc有効 = true;
-            //tasc状態2 = 2;
-            //ato有効();
-        }
-        if(出力値[73] == 0 || 出力値[92] == 0 || (出力値[19] == false && 出力値[20] == false && 出力値[21] == false && 出力値[41] == false && 出力値[35] == false)) {//小田急キーorCgS無効or保安装置切
-            _ato有効 = false;
-            _tasc有効 = false;
-            //tasc状態2 = 3;
-        }
+        _ato有効 = _tascato_mode > 1;
+        _tasc有効 = _tascato_mode > 0;
+        if (_tascato_mode > 0)自動ノッチ = std::min(自動ノッチ, _tasc.出力ノッチ());
+        if (_tascato_mode > 1)自動ノッチ = std::min(自動ノッチ, _ato.出力ノッチ());
+        //if (_tascato_mode = 1) {//TASCCgS有効、ATO/TASC切換NFBオン、キーは小田急でない
+        //    
+        //    
+        //    //tasc状態2 = 1;
+        //    //tasc有効();
+        //    //!ato有効();
+        //}
+        ////if (ato有効()) {
+        //else if (_tascato_mode = 2) {//TASCCgS有効、ATO/TASC切換NFBオフ、キーは小田急でない
+        //    自動ノッチ = std::min(自動ノッチ, _tasc.出力ノッチ());
+        //    
+        //    //_稼働状態 = tasc()._tasc();
+        //    //tasc有効();
+        //    _ato有効 = true;
+        //    _tasc有効 = true;
+        //    //tasc状態2 = 2;
+        //    //ato有効();
+        //}
+        //else if(_tascato_mode = 0) {//小田急キーorCgS無効or保安装置切
+        //    _ato有効 = false;
+        //    _tasc有効 = false;
+        //    //tasc状態2 = 3;
+        //}
 
         if (!ato有効() && !インチング中() ||
         //if ((出力値[73] == 0 || 出力値[92] == 7 || 出力値[137] == 1) && !インチング中() ||
@@ -323,6 +330,7 @@ namespace autopilot
 
         return ハンドル位置;
     }
+
 
     void Main::モード切替(bool 順方向, bool ループ)
     {/*

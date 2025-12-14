@@ -23,7 +23,7 @@ jobs:
 
     - name: Get latest workflow run id of winup-zhou/MetroAts
       run: |
-          RUN_ID=$(gh run list -w ${{ env.WORKFLOWID }} --repo winup-zhou/MetroAts -L 1 --json databaseId | jq -r '.[0].databaseId')
+          RUN_ID=$(gh run list -w ${{ env.WORKFLOWID }} --repo 'winup-zhou/MetroAts' -L 1 --json databaseId | jq -r '.[0].databaseId')
           echo "LATEST_RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
       shell: bash
       

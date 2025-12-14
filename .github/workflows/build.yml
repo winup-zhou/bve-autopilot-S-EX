@@ -18,14 +18,16 @@ jobs:
     name: MSBuild
     runs-on: windows-latest
     env:
-      TARGET_WORKFLOW_FILE: MSBuild.yml
+      TARGET_REPO: winup-zhou/MetroAts
+      TARGET_WORKFLOW_FILE: build.yml
+      GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Get latest workflow run id of winup-zhou/MetroAts
       run: |
-          RUN_ID=$(gh run list -w ${{ env.TARGET_WORKFLOW_FILE }} --repo 'winup-zhou/MetroAts' -L 1 --json databaseId | jq -r '.[0].databaseId')
+          RUN_ID=$(gh run list -w ${{ env.TARGET_WORKFLOW_FILE }} --repo "${{ env.TARGET_REPO }}" -L 1 --json databaseId | jq -r '.[0].databaseId')
           echo "LATEST_RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
       shell: bash
       
@@ -34,7 +36,7 @@ jobs:
       with:
         run-id: ${{ env.LATEST_RUN_ID }}
         path: MetroAts
-        repository: winup-zhou/MetroAts
+        repository: ${{ env.TARGET_REPO }}
         github-token: ${{ secrets.ACCESS_TOKEN }}
       
     - name: Setup MSBuild.exe

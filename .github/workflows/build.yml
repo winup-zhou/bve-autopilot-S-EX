@@ -49,7 +49,9 @@ jobs:
       run: nuget restore bve-autopilot.sln
 
     - name: MSBuild
-      run: msbuild bve-autopilot.sln /m /p:configuration="Release" /p:platform="Any CPU" /p:OutputPath="./out/"
+      run: |
+          chcp 65001
+          msbuild bve-autopilot.sln /m /p:configuration="Release" /p:platform="Any CPU" /p:OutputPath="./out/"
       shell: cmd
 
     - name: Collect artifact

@@ -20,11 +20,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Get latest workflow run id of winup-zhou/MetroAts
+      run: |
+          RUN_ID=$(gh run list -w ${{ env.WORKFLOWID }} --repo winup-zhou/MetroAts -L 1 --json databaseId | jq -r '.[0].databaseId')
+          echo "LATEST_RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+      shell: bash
       
     - name: Download a build artifact
       uses: actions/download-artifact@v4
       with:
-        name: plugins
+        run-id: ${{ env.LATEST_RUN_ID }}
         path: MetroAts
         repository: winup-zhou/MetroAts
         github-token: ${{ secrets.ACCESS_TOKEN }}

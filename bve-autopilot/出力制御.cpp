@@ -202,8 +202,25 @@ namespace autopilot
             static_cast<signed>(ノッチ.value) >= 最小ノッチ;
             --ノッチ.value)
         {
-            if (力行する余裕あり(ノッチ)) {
-                return ノッチ;
+            if (_状態.現在速度() < static_cast<mps>(15.0_kmph)) {
+                double ratio = 0.25 + 0.75 * (_状態.現在速度() / static_cast<mps>(15.0_kmph));
+                unsigned int maxNotch = std::max(
+                    static_cast<unsigned int>(std::ceil(_状態.最大力行ノッチ().value * ratio)),
+                    1u
+                );
+                if (ノッチ.value <= maxNotch) {
+                    if (力行する余裕あり(ノッチ)) {
+                        return ノッチ;
+                    }
+                } else {
+                    if (力行する余裕あり(力行ノッチ{ maxNotch })) {
+                        return 力行ノッチ{ maxNotch };
+                    }
+                }
+            } else {
+                if (力行する余裕あり(ノッチ)) {
+                    return ノッチ;
+                }
             }
         }
 

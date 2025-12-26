@@ -59,6 +59,7 @@ jobs:
         ls -alR
         mkdir plugins/
         find . -type f -name 'bve-autopilot-lib.dll' | xargs mv --force --backup=numbered -t ./plugins/
+        find . -type f -name 'bve-autopilot-lib64.dll' | xargs mv --force --backup=numbered -t ./plugins/
         find . -type f -name 'MetroAtsBridge.dll' | xargs mv --force --backup=numbered -t ./plugins/
         find . -type f -name 'LICENSE' | xargs mv --force --backup=numbered -t ./plugins/
         rm plugins/*~

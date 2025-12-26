@@ -50,7 +50,8 @@ jobs:
     - name: MSBuild
       run: |
           chcp 65001
-          msbuild bve-autopilot.sln /m /p:configuration="Release" /p:platform="Any CPU" /p:OutputPath="./out/"
+          msbuild bve-autopilot.sln /m /p:configuration="Release" /p:platform="x64" /p:OutputPath="./out/"
+          msbuild bve-autopilot.sln /m /p:configuration="Release" /p:platform="x86" /p:OutputPath="./out/"
       shell: cmd
 
     - name: Collect artifact

@@ -39,7 +39,6 @@ Global
 		{B1DDD299-6C46-4975-A47F-511D91264683}.Release|x64.ActiveCfg = Release|Any CPU
 		{B1DDD299-6C46-4975-A47F-511D91264683}.Release|x64.Build.0 = Release|Any CPU
 		{B1DDD299-6C46-4975-A47F-511D91264683}.Release|x86.ActiveCfg = Release|Any CPU
-		{B1DDD299-6C46-4975-A47F-511D91264683}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

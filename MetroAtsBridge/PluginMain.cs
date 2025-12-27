@@ -10,8 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetroAtsBridge
-{
+namespace MetroAtsBridge {
     public partial class MetroAtsBridge : AssemblyPluginBase {
 
         public override void Tick(TimeSpan elapsed) {
@@ -54,7 +53,7 @@ namespace MetroAtsBridge
                             } else {
                                 Sync.setATOTASCStatus(2);
                                 Sync.ATO_setATCLimit(nextSection.Location - state.Location, nextSection.CurrentSignalIndex);
-                            }                               
+                            }
                         }
                     } else {
                         if (Config.TASC_KeyPosLists.Contains((KeyPosList)corePlugin.KeyPos)) {
@@ -62,7 +61,7 @@ namespace MetroAtsBridge
                                 if (is64Bit) Sync64.setATOTASCStatus(1);
                                 else Sync.setATOTASCStatus(1);
                             }
-                            
+
                         } else {
                             if (isAutopilotPluginLoaded) {
                                 if (is64Bit) Sync64.setATOTASCStatus(0);
@@ -118,13 +117,26 @@ namespace MetroAtsBridge
 
             GCHandle panelHandle = GCHandle.Alloc(panel_, GCHandleType.Pinned);
             GCHandle soundHandle = GCHandle.Alloc(sound_, GCHandleType.Pinned);
-            
+
             try {
                 IntPtr panelPtr = panelHandle.AddrOfPinnedObject();
                 IntPtr soundPtr = soundHandle.AddrOfPinnedObject();
 
                 if (isAutopilotPluginLoaded) {
-                    var rtnVal = Sync.Elapse(new AtsStruct.AtsVehicleState {
+                    var rtnVal = is64Bit ?
+                    Sync64.Elapse(new AtsStruct.AtsVehicleState {
+                        Location = state.Location,
+                        Speed = state.Speed,
+                        Time = Convert.ToInt32(state.Time.TotalMilliseconds),
+                        BcPressure = state.BcPressure,
+                        MrPressure = state.MrPressure,
+                        ErPressure = state.ErPressure,
+                        BpPressure = state.BpPressure,
+                        SapPressure = state.SapPressure,
+                        Current = state.Current
+                    },
+                    panelPtr, soundPtr) :
+                    Sync.Elapse(new AtsStruct.AtsVehicleState {
                         Location = state.Location,
                         Speed = state.Speed,
                         Time = Convert.ToInt32(state.Time.TotalMilliseconds),
@@ -147,7 +159,7 @@ namespace MetroAtsBridge
                         sound[i] = sound_[i];
                     }
                 }
-                
+
             } finally {
                 // Ensure the handles are freed to avoid memory leaks
                 if (panelHandle.IsAllocated) panelHandle.Free();
